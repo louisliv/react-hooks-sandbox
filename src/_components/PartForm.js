@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { 
     Button,
     Form, 
@@ -7,10 +7,11 @@ import {
     Label 
 } from 'reactstrap'
 
-import { PART_ACTIONS } from "../App";
+import { PART_ACTIONS, PartsContext } from "../context";
 
 function PartForm(props) {
     const [part, setPart] = useState({});
+    const { dispatch } = useContext(PartsContext);
 
     const change = e => {
         setPart({...part, [e.target.name]: e.target.value})
@@ -20,7 +21,7 @@ function PartForm(props) {
         e.preventDefault();
         part.id = Date.now();
         part.inventory = 0;
-        props.dispatch({type: PART_ACTIONS.ADD_PART, payload: part});
+        dispatch({type: PART_ACTIONS.ADD_PART, payload: part});
     }
 
     return (

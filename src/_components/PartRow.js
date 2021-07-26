@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { 
     Form,
     InputGroup,
@@ -7,14 +7,15 @@ import {
     Button
 } from 'reactstrap'
 
-import { PART_ACTIONS } from "../App";
+import { PART_ACTIONS, PartsContext } from "../context";
 
 function PartRow(props) {
+    const { dispatch } = useContext(PartsContext);
 
     const changeInventory = e => {
         e.preventDefault();
 
-        props.dispatch({
+        dispatch({
             type: PART_ACTIONS.SET_INVENTORY,
             payload: {
                 id: props.part.id,
@@ -32,7 +33,7 @@ function PartRow(props) {
                 <Form>
                     <InputGroup>
                         <InputGroupAddon addonType="prepend"
-                            onClick={() => props.dispatch({
+                            onClick={() => dispatch({
                                 type: PART_ACTIONS.INCREMENT_INVENTORY,
                                 payload: { id: props.part.id, increment: -1 }
                         })}>-</InputGroupAddon>
@@ -43,14 +44,14 @@ function PartRow(props) {
                             onChange={changeInventory}
                         />
                         <InputGroupAddon addonType="append"
-                            onClick={() => props.dispatch({
+                            onClick={() => dispatch({
                                 type: PART_ACTIONS.INCREMENT_INVENTORY,
                                 payload: { id: props.part.id, increment: 1 }
                         })}>+</InputGroupAddon>
                     </InputGroup>
                 </Form>
             </td>
-            <td><Button color="danger" onClick={() => props.dispatch({ 
+            <td><Button color="danger" onClick={() => dispatch({ 
                 type: PART_ACTIONS.DELETE_PART,
                 payload: { id: props.part.id }
             })}>Delete</Button></td>
